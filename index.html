@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#183761">
+<title>Voice Alert Scheduler V3 — iPhone Fix</title>
+<style>
+:root{--bg:#f3f6fb;--card:#fff;--ink:#172b4d;--muted:#62738e;--line:#dce5f1;--blue:#276ef1;--green:#11835f;--red:#c13e42;--amber:#825b10}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:env(safe-area-inset-bottom)}
+header{background:linear-gradient(120deg,#18345e,#31558c);color:white;padding:20px 17px 24px}.head{max-width:1100px;margin:auto}.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#cbdcf8}.head h1{font-size:26px;line-height:1.2;margin:6px 0}.head p{margin:7px 0 0;color:#e0e9f8}
+main{max-width:1100px;margin:18px auto;padding:0 12px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:17px;box-shadow:0 5px 20px #1c36570b;min-width:0}.card h2{font-size:18px;margin:0 0 5px}.muted{color:var(--muted);font-size:13px;margin:0 0 14px}
+label{display:block;font-size:13px;font-weight:700;margin:12px 0 5px}input,textarea,select{width:100%;font:inherit;color:var(--ink);background:#fff;border:1px solid #c9d6e7;border-radius:10px;padding:12px;min-height:45px}textarea{resize:vertical}input:focus,textarea:focus,select:focus{outline:3px solid #276ef126;border-color:var(--blue)}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{border:0;border-radius:10px;padding:12px 13px;font:inherit;font-weight:750;cursor:pointer;min-height:44px}.primary{background:var(--blue);color:#fff}.green{background:var(--green);color:#fff}.soft{background:#eaf1ff;color:#204e9a}.outline{background:#fff;border:1px solid var(--line);color:var(--ink)}.danger{background:#fff0f0;color:var(--red)}.full{width:100%;margin-top:15px}.btn:disabled{opacity:.5}
+.statusbox{border-radius:11px;background:#eef5ff;padding:12px;font-size:13px;margin-top:14px;overflow-wrap:anywhere}.statusbox b{display:block;margin-bottom:3px}.statusbox.warn{background:#fff7e5;color:#755417}.statusbox.ok{background:#eaf8f1;color:#176749}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.toolbar .btn{flex:1}.event{display:flex;gap:11px;padding:13px 0;border-bottom:1px solid var(--line)}.event:last-child{border-bottom:0}.event-icon{width:39px;height:39px;display:grid;place-items:center;border-radius:12px;background:#edf3ff;font-size:21px;flex-shrink:0}.event-main{flex:1;min-width:0}.event-title{font-weight:800;overflow-wrap:anywhere}.event-meta,.event-message{font-size:13px;color:var(--muted);margin-top:3px;overflow-wrap:anywhere}.event-buttons{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.small{font-size:12px;padding:7px 9px;min-height:34px}.empty{border:1px dashed #cbd8e9;border-radius:11px;padding:22px 12px;text-align:center;color:var(--muted)}
+details{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}summary{cursor:pointer;font-weight:750}.diag{font-size:13px;color:var(--muted);padding-top:9px}.diag div{margin:5px 0}.pill{display:inline-block;border-radius:99px;background:#e9f7ef;color:#176749;padding:2px 8px;font-size:11px;font-weight:800}.pill.bad{background:#fff0f0;color:#b53237}
+.toast{position:fixed;z-index:99;bottom:calc(14px + env(safe-area-inset-bottom));left:12px;right:12px;max-width:520px;margin:auto;background:white;border:1px solid var(--line);box-shadow:0 10px 40px #152e512b;border-radius:15px;padding:15px;display:none}.toast.show{display:block}.toast-head{display:flex;justify-content:space-between;font-weight:800}.toast p{margin:8px 0}.toast small{color:var(--muted)}
+footer{text-align:center;padding:10px 15px 25px;font-size:12px;color:var(--muted)}
+@media(min-width:800px){header{padding:25px}.head h1{font-size:30px}main{padding:0 20px;margin-top:22px}.card{padding:20px}}
+@media(max-width:760px){main{grid-template-columns:1fr;margin-top:12px}.head h1{font-size:23px}.card{padding:15px}}
+</style>
+</head>
+<body>
+<header><div class="head"><div class="eyebrow">Bản sửa lỗi · V3</div><h1>🔔 Voice Alert Scheduler</h1><p>Lịch nhắc nhở, lưu dữ liệu và thử giọng nói — tối ưu để mở bằng Safari trên iPhone.</p></div></header>
+<main>
+<section class="card">
+<h2 id="formTitle">Tạo lịch nhắc nhở</h2><p class="muted">Lưu lịch trên trình duyệt hiện tại. Hãy thử giọng nói bằng nút bấm trước.</p>
+<form id="form">
+<label for="title">Tên kế hoạch</label><input id="title" maxlength="100" placeholder="Ví dụ: Uống thuốc / họp nhóm" required>
+<div class="row"><div><label for="date">Ngày</label><input id="date" type="date" required></div><div><label for="time">Giờ</label><input id="time" type="time" required></div></div>
+<label for="message">Nội dung cảnh báo bằng giọng nói</label><textarea id="message" rows="3" maxlength="240" required>Đã đến giờ thực hiện kế hoạch của bạn.</textarea>
+<label for="repeat">Lặp lại</label><select id="repeat"><option value="none">Một lần</option><option value="daily">Hằng ngày</option></select>
+<label for="voice">Giọng đọc</label><select id="voice"><option value="">Giọng mặc định (tiếng Việt)</option></select>
+<div class="row"><button class="btn primary full" id="save" type="submit">＋ Lưu lịch</button><button class="btn outline full" id="cancelEdit" type="button" hidden>Hủy sửa</button></div>
+</form>
+<div id="saveStatus" class="statusbox"><b>Trạng thái lưu</b>Chưa thao tác.</div>
+<div class="toolbar"><button class="btn green" id="permission">🔔 Kiểm tra quyền thông báo</button><button class="btn soft" id="testVoice">🔊 Thử giọng nói</button></div>
+<div class="toolbar"><button class="btn outline" id="testNotif">Thông báo thử</button><button class="btn danger" id="stop">Dừng giọng</button></div>
+<div class="statusbox warn"><b>Quan trọng trên iPhone</b>File HTML mở trong khung xem trước ChatGPT không phải môi trường web đầy đủ. Hãy tải file, mở bằng Safari hoặc lưu trên website HTTPS. Thông báo web trên iOS thường yêu cầu iOS 16.4 trở lên và website được thêm vào Màn hình chính; HTML đơn lẻ không thể bảo đảm báo khi đã đóng trang.</div>
+</section>
+<section class="card">
+<h2>📋 Lịch đã lưu <span id="count" class="pill">0</span></h2><p class="muted">Lịch được lưu trong bộ nhớ trình duyệt nếu môi trường cho phép.</p>
+<div id="events"><div class="empty">Đang tải lịch…</div></div>
+<div class="toolbar"><button class="btn outline" id="export">Xuất sao lưu JSON</button><button class="btn outline" id="import">Nhập JSON</button><input id="file" type="file" accept=".json,application/json" hidden></div>
+<div class="toolbar"><button class="btn outline" id="clearDone">Xóa lịch đã nhắc</button><button class="btn danger" id="clearAll">Xóa tất cả lịch</button></div>
+<details><summary>Chẩn đoán trình duyệt</summary><div class="diag" id="diag"></div></details>
+<details><summary>Vì sao lịch web có thể không kêu?</summary><div class="diag">JavaScript timer chỉ chạy khi trang còn hoạt động; iOS có thể tạm dừng tab nền. Speech Synthesis cần trình duyệt hỗ trợ và thường cần thao tác người dùng. Notification API không phải bộ lập lịch báo thức đáng tin cậy khi trang đã đóng. Muốn hoạt động như ứng dụng thật, cần đóng gói native và dùng Local Notifications.</div></details>
+</section>
+</main>
+<footer>V3 · Một file HTML duy nhất · Không gửi dữ liệu lên máy chủ</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"><div class="toast-head"><span>🔔 Đến giờ nhắc nhở</span><button id="close" class="btn outline small">Đóng</button></div><p id="toastTitle"></p><small id="toastMessage"></small></div>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id),KEY='va_scheduler_v3';let plans=[],timers=new Map(),voices=[],editing=null,storageMode='localStorage';
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function sayStatus(msg,kind){$('saveStatus').className='statusbox '+(kind||'');$('saveStatus').innerHTML='<b>Trạng thái lưu</b>'+esc(msg)}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(plans));storageMode='localStorage';sayStatus('Đã lưu thành công trên trình duyệt này.','ok');return true}catch(e){storageMode='bộ nhớ tạm';sayStatus('Trình duyệt chặn lưu bền vững. Lịch chỉ còn trong phiên hiện tại; hãy mở bằng Safari/HTTPS.','warn');return false}}
+function load(){try{const s=localStorage.getItem(KEY);plans=s?JSON.parse(s):[];if(!Array.isArray(plans))plans=[]}catch(e){plans=[];storageMode='bộ nhớ tạm'}}
+function fmt(ms){return new Date(ms).toLocaleString('vi-VN',{dateStyle:'medium',timeStyle:'short'})}
+function fillVoices(){if(!('speechSynthesis'in window))return;voices=speechSynthesis.getVoices();const sel=$('voice'),old=sel.value;sel.innerHTML='<option value="">Giọng mặc định (tiếng Việt)</option>';voices.forEach((v,i)=>{const o=document.createElement('option');o.value=String(i);o.textContent=v.name+' ('+v.lang+')';sel.appendChild(o)});if(old)sel.value=old}
+function speak(text){if(!('speechSynthesis'in window)){alert('Trình duyệt này không hỗ trợ giọng đọc. Thử Safari mới hoặc Chrome.');return}try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text),i=$('voice').value;if(i!==''&&voices[Number(i)]){u.voice=voices[Number(i)];u.lang=u.voice.lang}else u.lang='vi-VN';u.rate=.92;u.onstart=()=>sayStatus('Đang phát giọng nói.','ok');u.onend=()=>sayStatus('Đã phát xong giọng nói.','ok');u.onerror=()=>sayStatus('Không phát được giọng. Hãy chạm nút Thử giọng nói khi trang đang mở.','warn');speechSynthesis.speak(u)}catch(e){sayStatus('Lỗi phát giọng: '+e.message,'warn')}}
+function fire(p){$('toastTitle').textContent=p.title;$('toastMessage').textContent=p.message;$('toast').classList.add('show');if('Notification'in window&&Notification.permission==='granted'){try{new Notification(p.title,{body:p.message,tag:'va-'+p.id})}catch(e){}}speak(p.message)}
+function nextDay(ms){const d=new Date(ms);d.setDate(d.getDate()+1);return d.getTime()}
+function schedule(p){clearTimeout(timers.get(p.id));if(p.done||p.when<=Date.now())return;const wait=p.when-Date.now();timers.set(p.id,setTimeout(()=>{const x=plans.find(a=>a.id===p.id);if(!x||x.done)return;fire(x);if(x.repeat==='daily'){x.when=nextDay(x.when);persist();render();schedule(x)}else{x.done=true;persist();render()}},Math.min(wait,2147480000)))}
+function render(){const box=$('events');$('count').textContent=String(plans.length);if(!plans.length){box.innerHTML='<div class="empty">Chưa có lịch nào.<br>Tạo lịch bên trái rồi nhấn Lưu lịch.</div>';return}box.innerHTML=[...plans].sort((a,b)=>a.when-b.when).map(p=>'<article class="event"><div class="event-icon">'+(p.done?'✓':p.repeat==='daily'?'🔁':'◷')+'</div><div class="event-main"><div class="event-title">'+esc(p.title)+'</div><div class="event-meta">'+esc(fmt(p.when))+(p.repeat==='daily'?' · Hằng ngày':'')+'</div><div class="event-message">“'+esc(p.message)+'”</div><div class="event-buttons"><span class="pill '+(p.done?'bad':'')+'">'+(p.done?'Đã nhắc':'Đã lên lịch')+'</span><button class="btn soft small" data-act="test" data-id="'+esc(p.id)+'">Thử ngay</button><button class="btn outline small" data-act="edit" data-id="'+esc(p.id)+'">Sửa</button><button class="btn danger small" data-act="delete" data-id="'+esc(p.id)+'">Xóa</button></div></div></article>').join('')}
+function defaultDate(){const d=new Date(),pad=n=>String(n).padStart(2,'0');$('date').value=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());d.setMinutes(d.getMinutes()+3);$('time').value=pad(d.getHours())+':'+pad(d.getMinutes())}
+function reset(){editing=null;$('form').reset();$('formTitle').textContent='Tạo lịch nhắc nhở';$('save').textContent='＋ Lưu lịch';$('cancelEdit').hidden=true;defaultDate();$('message').value='Đã đến giờ thực hiện kế hoạch của bạn.'}
+$('form').addEventListener('submit',e=>{e.preventDefault();const title=$('title').value.trim(),message=$('message').value.trim(),when=new Date($('date').value+'T'+$('time').value).getTime();if(!title||!message){sayStatus('Hãy nhập tên kế hoạch và nội dung.','warn');return}if(!Number.isFinite(when)||when<=Date.now()){sayStatus('Ngày giờ phải ở tương lai.','warn');return}let p;if(editing){p=plans.find(x=>x.id===editing);if(!p)return;clearTimeout(timers.get(p.id));Object.assign(p,{title,message,when,repeat:$('repeat').value,done:false})}else{p={id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random()),title,message,when,repeat:$('repeat').value,done:false};plans.push(p)}persist();schedule(p);render();reset()});
+$('events').addEventListener('click',e=>{const b=e.target.closest('button[data-act]');if(!b)return;const p=plans.find(x=>x.id===b.dataset.id);if(!p)return;if(b.dataset.act==='test')fire(p);if(b.dataset.act==='delete'){clearTimeout(timers.get(p.id));timers.delete(p.id);plans=plans.filter(x=>x.id!==p.id);persist();render()}if(b.dataset.act==='edit'){editing=p.id;$('title').value=p.title;$('message').value=p.message;$('repeat').value=p.repeat||'none';const d=new Date(p.when),pad=n=>String(n).padStart(2,'0');$('date').value=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());$('time').value=pad(d.getHours())+':'+pad(d.getMinutes());$('formTitle').textContent='Sửa lịch nhắc nhở';$('save').textContent='Cập nhật lịch';$('cancelEdit').hidden=false;window.scrollTo({top:0,behavior:'smooth'})}});
+$('cancelEdit').addEventListener('click',reset);
+$('permission').addEventListener('click',async()=>{if(!('Notification'in window)){alert('Notification API không khả dụng trong môi trường này. Mở bằng Safari/HTTPS; trên iPhone có thể cần Add to Home Screen.');return}try{const result=await Notification.requestPermission();sayStatus('Quyền thông báo: '+result,result==='granted'?'ok':'warn');diagnostics()}catch(e){sayStatus('Không yêu cầu được quyền: '+e.message,'warn')}});
+$('testVoice').addEventListener('click',()=>speak($('message').value.trim()||'Đây là bài thử giọng nói.'));
+$('testNotif').addEventListener('click',()=>{const p={id:'test',title:'Thông báo thử',message:$('message').value};$('toastTitle').textContent=p.title;$('toastMessage').textContent=p.message;$('toast').classList.add('show');if('Notification'in window&&Notification.permission==='granted'){try{new Notification(p.title,{body:p.message})}catch(e){}}else alert('Đây là thông báo trong trang. Để có thông báo hệ thống, cần môi trường và quyền phù hợp.');});
+$('stop').addEventListener('click',()=>{if('speechSynthesis'in window)speechSynthesis.cancel();sayStatus('Đã dừng giọng nói.','ok')});$('close').addEventListener('click',()=>$('toast').classList.remove('show'));
+$('clearDone').addEventListener('click',()=>{plans=plans.filter(p=>!p.done);persist();render()});$('clearAll').addEventListener('click',()=>{if(!confirm('Xóa toàn bộ lịch?'))return;timers.forEach(clearTimeout);timers.clear();plans=[];persist();render();reset()});
+$('export').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(plans,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='voice-alert-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
+$('import').addEventListener('click',()=>$('file').click());$('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text());if(!Array.isArray(d)||d.some(p=>!p.title||!p.message||!Number.isFinite(p.when)))throw Error('invalid');timers.forEach(clearTimeout);timers.clear();plans=d.map(p=>({...p,id:String(p.id||Date.now()+Math.random()),done:false}));persist();plans.forEach(schedule);render();sayStatus('Đã nhập dữ liệu sao lưu.','ok')}catch(err){alert('File JSON không hợp lệ.')}e.target.value=''});
+function diagnostics(){const n='Notification'in window,s='speechSynthesis'in window;const rows=[['Nền tảng',navigator.userAgent],['Ngữ cảnh bảo mật',window.isSecureContext?'Secure context':'Không phải secure context'],['Lưu dữ liệu',storageMode],['Notification API',n?'Có':'Không có'],['Quyền thông báo',n?Notification.permission:'Không khả dụng'],['Speech Synthesis',s?'Có':'Không có'],['Số giọng đọc',String(voices.length)],['Lưu ý','Khung preview ChatGPT có thể hạn chế API']];$('diag').innerHTML=rows.map(x=>'<div><b>'+esc(x[0])+':</b> '+esc(x[1])+'</div>').join('')}
+load();defaultDate();fillVoices();if('speechSynthesis'in window)speechSynthesis.onvoiceschanged=()=>{fillVoices();diagnostics()};plans.forEach(p=>{if(p.repeat==='daily'&&!p.done&&p.when<=Date.now()){while(p.when<=Date.now())p.when=nextDay(p.when)}else if(p.when<=Date.now()&&!p.done)p.done=true});try{localStorage.setItem(KEY,JSON.stringify(plans))}catch(e){storageMode='bộ nhớ tạm'}render();diagnostics();sayStatus('Sẵn sàng. Tạo lịch rồi bấm Lưu lịch.','ok');plans.forEach(schedule);
+})();
+</script>
+</body>
+</html>
