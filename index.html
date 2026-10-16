@@ -2,83 +2,105 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#183761">
-<title>Voice Alert Scheduler V3 — iPhone Fix</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Nông Trại Mini — HTML5/JS</title>
 <style>
-:root{--bg:#f3f6fb;--card:#fff;--ink:#172b4d;--muted:#62738e;--line:#dce5f1;--blue:#276ef1;--green:#11835f;--red:#c13e42;--amber:#825b10}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:env(safe-area-inset-bottom)}
-header{background:linear-gradient(120deg,#18345e,#31558c);color:white;padding:20px 17px 24px}.head{max-width:1100px;margin:auto}.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#cbdcf8}.head h1{font-size:26px;line-height:1.2;margin:6px 0}.head p{margin:7px 0 0;color:#e0e9f8}
-main{max-width:1100px;margin:18px auto;padding:0 12px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:17px;box-shadow:0 5px 20px #1c36570b;min-width:0}.card h2{font-size:18px;margin:0 0 5px}.muted{color:var(--muted);font-size:13px;margin:0 0 14px}
-label{display:block;font-size:13px;font-weight:700;margin:12px 0 5px}input,textarea,select{width:100%;font:inherit;color:var(--ink);background:#fff;border:1px solid #c9d6e7;border-radius:10px;padding:12px;min-height:45px}textarea{resize:vertical}input:focus,textarea:focus,select:focus{outline:3px solid #276ef126;border-color:var(--blue)}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{border:0;border-radius:10px;padding:12px 13px;font:inherit;font-weight:750;cursor:pointer;min-height:44px}.primary{background:var(--blue);color:#fff}.green{background:var(--green);color:#fff}.soft{background:#eaf1ff;color:#204e9a}.outline{background:#fff;border:1px solid var(--line);color:var(--ink)}.danger{background:#fff0f0;color:var(--red)}.full{width:100%;margin-top:15px}.btn:disabled{opacity:.5}
-.statusbox{border-radius:11px;background:#eef5ff;padding:12px;font-size:13px;margin-top:14px;overflow-wrap:anywhere}.statusbox b{display:block;margin-bottom:3px}.statusbox.warn{background:#fff7e5;color:#755417}.statusbox.ok{background:#eaf8f1;color:#176749}
-.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.toolbar .btn{flex:1}.event{display:flex;gap:11px;padding:13px 0;border-bottom:1px solid var(--line)}.event:last-child{border-bottom:0}.event-icon{width:39px;height:39px;display:grid;place-items:center;border-radius:12px;background:#edf3ff;font-size:21px;flex-shrink:0}.event-main{flex:1;min-width:0}.event-title{font-weight:800;overflow-wrap:anywhere}.event-meta,.event-message{font-size:13px;color:var(--muted);margin-top:3px;overflow-wrap:anywhere}.event-buttons{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.small{font-size:12px;padding:7px 9px;min-height:34px}.empty{border:1px dashed #cbd8e9;border-radius:11px;padding:22px 12px;text-align:center;color:var(--muted)}
-details{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}summary{cursor:pointer;font-weight:750}.diag{font-size:13px;color:var(--muted);padding-top:9px}.diag div{margin:5px 0}.pill{display:inline-block;border-radius:99px;background:#e9f7ef;color:#176749;padding:2px 8px;font-size:11px;font-weight:800}.pill.bad{background:#fff0f0;color:#b53237}
-.toast{position:fixed;z-index:99;bottom:calc(14px + env(safe-area-inset-bottom));left:12px;right:12px;max-width:520px;margin:auto;background:white;border:1px solid var(--line);box-shadow:0 10px 40px #152e512b;border-radius:15px;padding:15px;display:none}.toast.show{display:block}.toast-head{display:flex;justify-content:space-between;font-weight:800}.toast p{margin:8px 0}.toast small{color:var(--muted)}
-footer{text-align:center;padding:10px 15px 25px;font-size:12px;color:var(--muted)}
-@media(min-width:800px){header{padding:25px}.head h1{font-size:30px}main{padding:0 20px;margin-top:22px}.card{padding:20px}}
-@media(max-width:760px){main{grid-template-columns:1fr;margin-top:12px}.head h1{font-size:23px}.card{padding:15px}}
+:root{--ink:#203047;--panel:#fffaf0;--green:#4c9b58;--gold:#f5bf43}
+*{box-sizing:border-box}body{margin:0;background:#d9ecdc;color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:#203047;color:white;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;box-shadow:0 3px 0 #142235}
+h1{font-size:20px;margin:0} .stats{display:flex;gap:8px;flex-wrap:wrap}.pill{background:#31455e;padding:7px 11px;border-radius:12px;font-weight:700;font-size:14px}
+main{max-width:1000px;margin:14px auto;padding:0 12px;display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:12px}
+.game{background:#92ca73;border:4px solid #fffaf0;border-radius:18px;overflow:hidden;box-shadow:0 5px 0 #b4c8b4;position:relative}
+canvas{display:block;width:100%;height:auto;touch-action:manipulation;cursor:pointer}
+.hint{padding:10px 13px;background:#fffaf0;font-size:13px;line-height:1.5}
+aside{display:flex;flex-direction:column;gap:10px}.card{background:var(--panel);border:2px solid #e7dfca;border-radius:15px;padding:13px;box-shadow:0 3px 0 #b8c8b5}
+.card h2{font-size:15px;margin:0 0 9px}.big{font-size:24px;font-weight:800}.muted{color:#69778a;font-size:12px}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:7px}.tool{border:2px solid #d9dfd2;background:white;border-radius:11px;padding:9px 5px;font-weight:700;color:var(--ink);cursor:pointer}.tool.active{border-color:#e5a91c;background:#fff0b9;box-shadow:0 0 0 2px #f5d66f inset}.tool span{display:block;font-size:20px;margin-bottom:2px}
+.action{width:100%;padding:11px;border:0;border-radius:11px;background:#438b4e;color:white;font-size:14px;font-weight:800;cursor:pointer;margin-top:7px}.action.secondary{background:#31455e}.quest{font-size:13px;line-height:1.6}.bar{height:8px;background:#e2e7db;border-radius:8px;overflow:hidden;margin:5px 0 10px}.bar i{display:block;height:100%;background:#58a967;width:0%}#toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#203047;color:white;padding:10px 16px;border-radius:12px;box-shadow:0 4px 15px #0003;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90%;text-align:center}#toast.show{opacity:1}
+footer{text-align:center;padding:4px 12px 18px;color:#526a59;font-size:12px}
+@media(max-width:700px){main{grid-template-columns:1fr;margin-top:8px}.stats{width:100%;justify-content:space-between}.pill{font-size:12px;padding:6px 8px}aside{display:grid;grid-template-columns:1fr 1fr}.card:first-child{grid-column:1/-1}h1{font-size:18px}.hint{font-size:12px}}
 </style>
 </head>
 <body>
-<header><div class="head"><div class="eyebrow">Bản sửa lỗi · V3</div><h1>🔔 Voice Alert Scheduler</h1><p>Lịch nhắc nhở, lưu dữ liệu và thử giọng nói — tối ưu để mở bằng Safari trên iPhone.</p></div></header>
+<header>
+  <h1>🌱 Nông Trại Mini</h1>
+  <div class="stats"><div class="pill">🪙 <b id="gold">30</b></div><div class="pill">🥕 <b id="produce">0</b></div><div class="pill">☀️ <b id="day">Ngày 1 · 08:00</b></div></div>
+</header>
 <main>
-<section class="card">
-<h2 id="formTitle">Tạo lịch nhắc nhở</h2><p class="muted">Lưu lịch trên trình duyệt hiện tại. Hãy thử giọng nói bằng nút bấm trước.</p>
-<form id="form">
-<label for="title">Tên kế hoạch</label><input id="title" maxlength="100" placeholder="Ví dụ: Uống thuốc / họp nhóm" required>
-<div class="row"><div><label for="date">Ngày</label><input id="date" type="date" required></div><div><label for="time">Giờ</label><input id="time" type="time" required></div></div>
-<label for="message">Nội dung cảnh báo bằng giọng nói</label><textarea id="message" rows="3" maxlength="240" required>Đã đến giờ thực hiện kế hoạch của bạn.</textarea>
-<label for="repeat">Lặp lại</label><select id="repeat"><option value="none">Một lần</option><option value="daily">Hằng ngày</option></select>
-<label for="voice">Giọng đọc</label><select id="voice"><option value="">Giọng mặc định (tiếng Việt)</option></select>
-<div class="row"><button class="btn primary full" id="save" type="submit">＋ Lưu lịch</button><button class="btn outline full" id="cancelEdit" type="button" hidden>Hủy sửa</button></div>
-</form>
-<div id="saveStatus" class="statusbox"><b>Trạng thái lưu</b>Chưa thao tác.</div>
-<div class="toolbar"><button class="btn green" id="permission">🔔 Kiểm tra quyền thông báo</button><button class="btn soft" id="testVoice">🔊 Thử giọng nói</button></div>
-<div class="toolbar"><button class="btn outline" id="testNotif">Thông báo thử</button><button class="btn danger" id="stop">Dừng giọng</button></div>
-<div class="statusbox warn"><b>Quan trọng trên iPhone</b>File HTML mở trong khung xem trước ChatGPT không phải môi trường web đầy đủ. Hãy tải file, mở bằng Safari hoặc lưu trên website HTTPS. Thông báo web trên iOS thường yêu cầu iOS 16.4 trở lên và website được thêm vào Màn hình chính; HTML đơn lẻ không thể bảo đảm báo khi đã đóng trang.</div>
+<section class="game">
+<canvas id="farm" width="720" height="560" aria-label="Bản đồ nông trại"></canvas>
+<div class="hint"><b>Chơi nhanh:</b> Chọn công cụ rồi chạm vào ô đất. Cuốc đất → gieo hạt → tưới nước → chờ cây lớn → thu hoạch. Mỗi ngày cây được thêm một bước phát triển.</div>
 </section>
-<section class="card">
-<h2>📋 Lịch đã lưu <span id="count" class="pill">0</span></h2><p class="muted">Lịch được lưu trong bộ nhớ trình duyệt nếu môi trường cho phép.</p>
-<div id="events"><div class="empty">Đang tải lịch…</div></div>
-<div class="toolbar"><button class="btn outline" id="export">Xuất sao lưu JSON</button><button class="btn outline" id="import">Nhập JSON</button><input id="file" type="file" accept=".json,application/json" hidden></div>
-<div class="toolbar"><button class="btn outline" id="clearDone">Xóa lịch đã nhắc</button><button class="btn danger" id="clearAll">Xóa tất cả lịch</button></div>
-<details><summary>Chẩn đoán trình duyệt</summary><div class="diag" id="diag"></div></details>
-<details><summary>Vì sao lịch web có thể không kêu?</summary><div class="diag">JavaScript timer chỉ chạy khi trang còn hoạt động; iOS có thể tạm dừng tab nền. Speech Synthesis cần trình duyệt hỗ trợ và thường cần thao tác người dùng. Notification API không phải bộ lập lịch báo thức đáng tin cậy khi trang đã đóng. Muốn hoạt động như ứng dụng thật, cần đóng gói native và dùng Local Notifications.</div></details>
-</section>
+<aside>
+ <section class="card"><h2>🧑‍🌾 Nông dân</h2><div class="big">Cấp <span id="level">1</span></div><div class="muted">Kinh nghiệm: <span id="xp">0</span> / 10 XP</div><div class="bar"><i id="xpbar"></i></div><div class="muted">Mục tiêu: thu hoạch 5 củ cà rốt.</div></section>
+ <section class="card"><h2>🧰 Công cụ</h2><div class="tools" id="tools">
+ <button class="tool active" data-tool="hoe"><span>⛏️</span>Cuốc đất</button>
+ <button class="tool" data-tool="seed"><span>🌱</span>Gieo hạt <small>(3🪙)</small></button>
+ <button class="tool" data-tool="water"><span>💧</span>Tưới nước</button>
+ <button class="tool" data-tool="harvest"><span>🧺</span>Thu hoạch</button>
+ </div><button class="action" id="nextDay">🌙 Ngủ — sang ngày mới</button><button class="action secondary" id="sell">Bán nông sản (+5🪙/củ)</button></section>
+ <section class="card quest"><h2>📋 Nhật ký</h2><div id="quest">• Cuốc một ô đất để bắt đầu.<br>• Gieo hạt và nhớ tưới nước!</div><p class="muted">Tiến độ thu hoạch: <b id="harvestCount">0</b>/5</p></section>
+</aside>
 </main>
-<footer>V3 · Một file HTML duy nhất · Không gửi dữ liệu lên máy chủ</footer>
-<div class="toast" id="toast" role="status" aria-live="polite"><div class="toast-head"><span>🔔 Đến giờ nhắc nhở</span><button id="close" class="btn outline small">Đóng</button></div><p id="toastTitle"></p><small id="toastMessage"></small></div>
+<footer>Demo HTML5 + JavaScript · Tự lưu tiến trình trên thiết bị này.</footer>
+<div id="toast"></div>
 <script>
-(function(){
-'use strict';
-const $=id=>document.getElementById(id),KEY='va_scheduler_v3';let plans=[],timers=new Map(),voices=[],editing=null,storageMode='localStorage';
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function sayStatus(msg,kind){$('saveStatus').className='statusbox '+(kind||'');$('saveStatus').innerHTML='<b>Trạng thái lưu</b>'+esc(msg)}
-function persist(){try{localStorage.setItem(KEY,JSON.stringify(plans));storageMode='localStorage';sayStatus('Đã lưu thành công trên trình duyệt này.','ok');return true}catch(e){storageMode='bộ nhớ tạm';sayStatus('Trình duyệt chặn lưu bền vững. Lịch chỉ còn trong phiên hiện tại; hãy mở bằng Safari/HTTPS.','warn');return false}}
-function load(){try{const s=localStorage.getItem(KEY);plans=s?JSON.parse(s):[];if(!Array.isArray(plans))plans=[]}catch(e){plans=[];storageMode='bộ nhớ tạm'}}
-function fmt(ms){return new Date(ms).toLocaleString('vi-VN',{dateStyle:'medium',timeStyle:'short'})}
-function fillVoices(){if(!('speechSynthesis'in window))return;voices=speechSynthesis.getVoices();const sel=$('voice'),old=sel.value;sel.innerHTML='<option value="">Giọng mặc định (tiếng Việt)</option>';voices.forEach((v,i)=>{const o=document.createElement('option');o.value=String(i);o.textContent=v.name+' ('+v.lang+')';sel.appendChild(o)});if(old)sel.value=old}
-function speak(text){if(!('speechSynthesis'in window)){alert('Trình duyệt này không hỗ trợ giọng đọc. Thử Safari mới hoặc Chrome.');return}try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text),i=$('voice').value;if(i!==''&&voices[Number(i)]){u.voice=voices[Number(i)];u.lang=u.voice.lang}else u.lang='vi-VN';u.rate=.92;u.onstart=()=>sayStatus('Đang phát giọng nói.','ok');u.onend=()=>sayStatus('Đã phát xong giọng nói.','ok');u.onerror=()=>sayStatus('Không phát được giọng. Hãy chạm nút Thử giọng nói khi trang đang mở.','warn');speechSynthesis.speak(u)}catch(e){sayStatus('Lỗi phát giọng: '+e.message,'warn')}}
-function fire(p){$('toastTitle').textContent=p.title;$('toastMessage').textContent=p.message;$('toast').classList.add('show');if('Notification'in window&&Notification.permission==='granted'){try{new Notification(p.title,{body:p.message,tag:'va-'+p.id})}catch(e){}}speak(p.message)}
-function nextDay(ms){const d=new Date(ms);d.setDate(d.getDate()+1);return d.getTime()}
-function schedule(p){clearTimeout(timers.get(p.id));if(p.done||p.when<=Date.now())return;const wait=p.when-Date.now();timers.set(p.id,setTimeout(()=>{const x=plans.find(a=>a.id===p.id);if(!x||x.done)return;fire(x);if(x.repeat==='daily'){x.when=nextDay(x.when);persist();render();schedule(x)}else{x.done=true;persist();render()}},Math.min(wait,2147480000)))}
-function render(){const box=$('events');$('count').textContent=String(plans.length);if(!plans.length){box.innerHTML='<div class="empty">Chưa có lịch nào.<br>Tạo lịch bên trái rồi nhấn Lưu lịch.</div>';return}box.innerHTML=[...plans].sort((a,b)=>a.when-b.when).map(p=>'<article class="event"><div class="event-icon">'+(p.done?'✓':p.repeat==='daily'?'🔁':'◷')+'</div><div class="event-main"><div class="event-title">'+esc(p.title)+'</div><div class="event-meta">'+esc(fmt(p.when))+(p.repeat==='daily'?' · Hằng ngày':'')+'</div><div class="event-message">“'+esc(p.message)+'”</div><div class="event-buttons"><span class="pill '+(p.done?'bad':'')+'">'+(p.done?'Đã nhắc':'Đã lên lịch')+'</span><button class="btn soft small" data-act="test" data-id="'+esc(p.id)+'">Thử ngay</button><button class="btn outline small" data-act="edit" data-id="'+esc(p.id)+'">Sửa</button><button class="btn danger small" data-act="delete" data-id="'+esc(p.id)+'">Xóa</button></div></div></article>').join('')}
-function defaultDate(){const d=new Date(),pad=n=>String(n).padStart(2,'0');$('date').value=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());d.setMinutes(d.getMinutes()+3);$('time').value=pad(d.getHours())+':'+pad(d.getMinutes())}
-function reset(){editing=null;$('form').reset();$('formTitle').textContent='Tạo lịch nhắc nhở';$('save').textContent='＋ Lưu lịch';$('cancelEdit').hidden=true;defaultDate();$('message').value='Đã đến giờ thực hiện kế hoạch của bạn.'}
-$('form').addEventListener('submit',e=>{e.preventDefault();const title=$('title').value.trim(),message=$('message').value.trim(),when=new Date($('date').value+'T'+$('time').value).getTime();if(!title||!message){sayStatus('Hãy nhập tên kế hoạch và nội dung.','warn');return}if(!Number.isFinite(when)||when<=Date.now()){sayStatus('Ngày giờ phải ở tương lai.','warn');return}let p;if(editing){p=plans.find(x=>x.id===editing);if(!p)return;clearTimeout(timers.get(p.id));Object.assign(p,{title,message,when,repeat:$('repeat').value,done:false})}else{p={id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random()),title,message,when,repeat:$('repeat').value,done:false};plans.push(p)}persist();schedule(p);render();reset()});
-$('events').addEventListener('click',e=>{const b=e.target.closest('button[data-act]');if(!b)return;const p=plans.find(x=>x.id===b.dataset.id);if(!p)return;if(b.dataset.act==='test')fire(p);if(b.dataset.act==='delete'){clearTimeout(timers.get(p.id));timers.delete(p.id);plans=plans.filter(x=>x.id!==p.id);persist();render()}if(b.dataset.act==='edit'){editing=p.id;$('title').value=p.title;$('message').value=p.message;$('repeat').value=p.repeat||'none';const d=new Date(p.when),pad=n=>String(n).padStart(2,'0');$('date').value=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());$('time').value=pad(d.getHours())+':'+pad(d.getMinutes());$('formTitle').textContent='Sửa lịch nhắc nhở';$('save').textContent='Cập nhật lịch';$('cancelEdit').hidden=false;window.scrollTo({top:0,behavior:'smooth'})}});
-$('cancelEdit').addEventListener('click',reset);
-$('permission').addEventListener('click',async()=>{if(!('Notification'in window)){alert('Notification API không khả dụng trong môi trường này. Mở bằng Safari/HTTPS; trên iPhone có thể cần Add to Home Screen.');return}try{const result=await Notification.requestPermission();sayStatus('Quyền thông báo: '+result,result==='granted'?'ok':'warn');diagnostics()}catch(e){sayStatus('Không yêu cầu được quyền: '+e.message,'warn')}});
-$('testVoice').addEventListener('click',()=>speak($('message').value.trim()||'Đây là bài thử giọng nói.'));
-$('testNotif').addEventListener('click',()=>{const p={id:'test',title:'Thông báo thử',message:$('message').value};$('toastTitle').textContent=p.title;$('toastMessage').textContent=p.message;$('toast').classList.add('show');if('Notification'in window&&Notification.permission==='granted'){try{new Notification(p.title,{body:p.message})}catch(e){}}else alert('Đây là thông báo trong trang. Để có thông báo hệ thống, cần môi trường và quyền phù hợp.');});
-$('stop').addEventListener('click',()=>{if('speechSynthesis'in window)speechSynthesis.cancel();sayStatus('Đã dừng giọng nói.','ok')});$('close').addEventListener('click',()=>$('toast').classList.remove('show'));
-$('clearDone').addEventListener('click',()=>{plans=plans.filter(p=>!p.done);persist();render()});$('clearAll').addEventListener('click',()=>{if(!confirm('Xóa toàn bộ lịch?'))return;timers.forEach(clearTimeout);timers.clear();plans=[];persist();render();reset()});
-$('export').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(plans,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='voice-alert-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
-$('import').addEventListener('click',()=>$('file').click());$('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text());if(!Array.isArray(d)||d.some(p=>!p.title||!p.message||!Number.isFinite(p.when)))throw Error('invalid');timers.forEach(clearTimeout);timers.clear();plans=d.map(p=>({...p,id:String(p.id||Date.now()+Math.random()),done:false}));persist();plans.forEach(schedule);render();sayStatus('Đã nhập dữ liệu sao lưu.','ok')}catch(err){alert('File JSON không hợp lệ.')}e.target.value=''});
-function diagnostics(){const n='Notification'in window,s='speechSynthesis'in window;const rows=[['Nền tảng',navigator.userAgent],['Ngữ cảnh bảo mật',window.isSecureContext?'Secure context':'Không phải secure context'],['Lưu dữ liệu',storageMode],['Notification API',n?'Có':'Không có'],['Quyền thông báo',n?Notification.permission:'Không khả dụng'],['Speech Synthesis',s?'Có':'Không có'],['Số giọng đọc',String(voices.length)],['Lưu ý','Khung preview ChatGPT có thể hạn chế API']];$('diag').innerHTML=rows.map(x=>'<div><b>'+esc(x[0])+':</b> '+esc(x[1])+'</div>').join('')}
-load();defaultDate();fillVoices();if('speechSynthesis'in window)speechSynthesis.onvoiceschanged=()=>{fillVoices();diagnostics()};plans.forEach(p=>{if(p.repeat==='daily'&&!p.done&&p.when<=Date.now()){while(p.when<=Date.now())p.when=nextDay(p.when)}else if(p.when<=Date.now()&&!p.done)p.done=true});try{localStorage.setItem(KEY,JSON.stringify(plans))}catch(e){storageMode='bộ nhớ tạm'}render();diagnostics();sayStatus('Sẵn sàng. Tạo lịch rồi bấm Lưu lịch.','ok');plans.forEach(schedule);
+(()=>{
+const canvas=document.getElementById('farm'),ctx=canvas.getContext('2d');
+const cols=8,rows=6,tile=66,ox=36,oy=72;
+let tool='hoe',gold=30,produce=0,day=1,hour=8,xp=0,level=1,harvestCount=0;
+let plots=Array.from({length:rows},()=>Array.from({length:cols},()=>({state:0,growth:0,water:false})));
+let deco=[];
+function rnd(n){return Math.floor(Math.random()*n)}
+for(let i=0;i<45;i++)deco.push({x:rnd(700)+10,y:rnd(540)+10,t:rnd(3)});
+function save(){try{localStorage.setItem('nongTraiMini',JSON.stringify({gold,produce,day,hour,xp,level,harvestCount,plots}))}catch(e){}}
+function load(){try{let d=JSON.parse(localStorage.getItem('nongTraiMini'));if(d){({gold,produce,day,hour,xp,level,harvestCount,plots}=d)}}catch(e){}}
+function toast(s){let el=document.getElementById('toast');el.textContent=s;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1700)}
+function draw(){
+ ctx.clearRect(0,0,720,560);
+ // grassy background
+ ctx.fillStyle='#9bd47a';ctx.fillRect(0,0,720,560);
+ for(let y=0;y<560;y+=32)for(let x=0;x<720;x+=32){ctx.fillStyle=((x/32+y/32)%2)?'#96ce75':'#a2d982';ctx.fillRect(x,y,32,32)}
+ // pond and stepping stones
+ ctx.fillStyle='#57c6db';ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(200,0);ctx.lineTo(150,65);ctx.lineTo(70,100);ctx.lineTo(0,75);ctx.closePath();ctx.fill();
+ for(let i=0;i<12;i++){ctx.fillStyle='#d9f7ed55';ctx.fillRect(8+i*13,18+(i%3)*10,8,3)}
+ // little house
+ ctx.fillStyle='#d9a66c';ctx.fillRect(495,28,155,100);ctx.fillStyle='#b95743';ctx.beginPath();ctx.moveTo(480,42);ctx.lineTo(570,0);ctx.lineTo(665,42);ctx.closePath();ctx.fill();ctx.fillStyle='#74452e';ctx.fillRect(555,75,34,53);ctx.fillStyle='#b7e6ef';ctx.fillRect(610,57,22,22);
+ // fence
+ ctx.strokeStyle='#9a653a';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(475,150);ctx.lineTo(681,150);ctx.moveTo(475,150);ctx.lineTo(475,520);ctx.moveTo(681,150);ctx.lineTo(681,520);ctx.moveTo(475,520);ctx.lineTo(681,520);ctx.stroke();
+ for(let x=480;x<680;x+=28){ctx.fillStyle='#bc8850';ctx.fillRect(x,144,7,14);ctx.fillRect(x,514,7,14)}
+ // trees
+ [[55,160],[665,80],[690,240],[40,480],[670,465]].forEach(([x,y],i)=>{ctx.fillStyle='#765333';ctx.fillRect(x-5,y,12,28);ctx.fillStyle=i%2?'#31824b':'#3d9951';ctx.beginPath();ctx.arc(x,y,23,0,Math.PI*2);ctx.fill();ctx.fillStyle='#65b85e';ctx.beginPath();ctx.arc(x-7,y-8,11,0,Math.PI*2);ctx.fill()});
+ // crop grid
+ for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+  const p=plots[r][c],x=ox+c*tile,y=oy+r*tile;
+  ctx.fillStyle=p.state?'#754c32':'#76b75e';ctx.fillRect(x+2,y+2,tile-5,tile-5);
+  if(p.state){ctx.fillStyle=p.water?'#6b9d68':'#93613b';ctx.fillRect(x+5,y+5,tile-11,tile-11);
+   if(p.state===1){ctx.strokeStyle='#b18a57';ctx.lineWidth=2;for(let k=0;k<4;k++){ctx.beginPath();ctx.moveTo(x+10,y+12+k*12);ctx.lineTo(x+tile-10,y+12+k*12);ctx.stroke()}}
+   if(p.state===2||p.state===3){let n=p.growth+1;for(let k=0;k<n;k++){let px=x+18+(k%3)*15,py=y+24+Math.floor(k/3)*13;ctx.strokeStyle='#287c3f';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(px,py+8);ctx.lineTo(px,py-4);ctx.stroke();ctx.fillStyle=p.state===3?'#f3a83f':'#4ebd59';ctx.beginPath();ctx.ellipse(px-4,py-1,6,3,-.5,0,7);ctx.fill();ctx.beginPath();ctx.ellipse(px+4,py-4,6,3,.5,0,7);ctx.fill()}}
+   if(p.state===3){ctx.fillStyle='#f39a31';ctx.beginPath();ctx.ellipse(x+tile/2,y+tile/2+7,8,13,0,0,7);ctx.fill();ctx.fillStyle='#3a8c42';ctx.fillRect(x+tile/2-2,y+tile/2-10,4,8)}
+   if(p.water){ctx.fillStyle='#8dd9f4';ctx.beginPath();ctx.arc(x+tile-13,y+12,4,0,7);ctx.fill()}
+  }else{ctx.fillStyle='#b4df8b';ctx.fillRect(x+tile/2-2,y+tile/2-2,4,4)}
+ }
+ // player
+ ctx.fillStyle='#344e70';ctx.fillRect(315,22,24,28);ctx.fillStyle='#f0c39a';ctx.fillRect(318,7,19,19);ctx.fillStyle='#49372d';ctx.fillRect(316,5,21,7);ctx.fillStyle='#fff';ctx.fillRect(322,14,3,3);ctx.fillRect(331,14,3,3);
+ ctx.fillStyle='#fff8df';ctx.font='bold 13px system-ui';ctx.fillText('NÔNG TRẠI CỦA BẠN',235,545);
+}
+function updateUI(){document.getElementById('gold').textContent=gold;document.getElementById('produce').textContent=produce;document.getElementById('day').textContent=`Ngày ${day} · ${String(hour).padStart(2,'0')}:00`;document.getElementById('level').textContent=level;document.getElementById('xp').textContent=xp;document.getElementById('xpbar').style.width=(xp/10*100)+'%';document.getElementById('harvestCount').textContent=harvestCount;save()}
+canvas.addEventListener('click',e=>{
+ const rect=canvas.getBoundingClientRect(),x=(e.clientX-rect.left)*canvas.width/rect.width,y=(e.clientY-rect.top)*canvas.height/rect.height;
+ const c=Math.floor((x-ox)/tile),r=Math.floor((y-oy)/tile);if(c<0||c>=cols||r<0||r>=rows)return;
+ const p=plots[r][c];
+ if(tool==='hoe'){if(!p.state){p.state=1;toast('Đã cuốc đất! Chọn Gieo hạt.')}else toast('Ô đất này đã được chuẩn bị rồi.')}
+ if(tool==='seed'){if(p.state===1&&gold>=3){p.state=2;p.growth=0;gold-=3;toast('Đã gieo hạt. Nhớ tưới nước!')}else if(gold<3)toast('Không đủ vàng!');else toast('Hãy cuốc đất trước.')}
+ if(tool==='water'){if(p.state===2){p.water=true;toast('Đã tưới nước!')}else toast('Chỉ tưới được ô có hạt đang lớn.')}
+ if(tool==='harvest'){if(p.state===3){p.state=1;p.growth=0;p.water=false;produce++;harvestCount++;xp+=3;if(xp>=10){level++;xp-=10;toast('Lên cấp '+level+'! 🎉')}else toast('Thu hoạch được 1 củ cà rốt!')}else toast('Cây chưa chín. Hãy ngủ sang ngày mới và tưới cây.')}
+ draw();updateUI();
+});
+document.querySelectorAll('.tool').forEach(b=>b.addEventListener('click',()=>{tool=b.dataset.tool;document.querySelectorAll('.tool').forEach(x=>x.classList.toggle('active',x===b))}));
+document.getElementById('nextDay').onclick=()=>{day++;hour=8;let grew=0;plots.flat().forEach(p=>{if(p.state===2&&p.water){p.growth++;p.water=false;grew++;if(p.growth>=2)p.state=3}});draw();updateUI();toast(grew?`Ngày mới! ${grew} cây đã phát triển.`:'Ngày mới! Nhớ tưới cây trước khi ngủ nhé.')};
+document.getElementById('sell').onclick=()=>{if(!produce){toast('Chưa có nông sản để bán!');return}gold+=produce*5;toast(`Đã bán ${produce} củ, nhận ${produce*5} vàng!`);produce=0;draw();updateUI()};
+load();draw();updateUI();
 })();
 </script>
-</body>
-</html>
+</body></html>
