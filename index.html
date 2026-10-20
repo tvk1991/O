@@ -2,105 +2,153 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Nông Trại Mini — HTML5/JS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f766e">
+<meta name="description" content="Bộ công cụ tạo nội dung bán hàng tiếng Việt: tiêu đề, mô tả, bài đăng và kịch bản video ngắn.">
+<title>Chốt Đơn — Bộ công cụ nội dung bán hàng</title>
 <style>
-:root{--ink:#203047;--panel:#fffaf0;--green:#4c9b58;--gold:#f5bf43}
-*{box-sizing:border-box}body{margin:0;background:#d9ecdc;color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
-header{background:#203047;color:white;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;box-shadow:0 3px 0 #142235}
-h1{font-size:20px;margin:0} .stats{display:flex;gap:8px;flex-wrap:wrap}.pill{background:#31455e;padding:7px 11px;border-radius:12px;font-weight:700;font-size:14px}
-main{max-width:1000px;margin:14px auto;padding:0 12px;display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:12px}
-.game{background:#92ca73;border:4px solid #fffaf0;border-radius:18px;overflow:hidden;box-shadow:0 5px 0 #b4c8b4;position:relative}
-canvas{display:block;width:100%;height:auto;touch-action:manipulation;cursor:pointer}
-.hint{padding:10px 13px;background:#fffaf0;font-size:13px;line-height:1.5}
-aside{display:flex;flex-direction:column;gap:10px}.card{background:var(--panel);border:2px solid #e7dfca;border-radius:15px;padding:13px;box-shadow:0 3px 0 #b8c8b5}
-.card h2{font-size:15px;margin:0 0 9px}.big{font-size:24px;font-weight:800}.muted{color:#69778a;font-size:12px}
-.tools{display:grid;grid-template-columns:1fr 1fr;gap:7px}.tool{border:2px solid #d9dfd2;background:white;border-radius:11px;padding:9px 5px;font-weight:700;color:var(--ink);cursor:pointer}.tool.active{border-color:#e5a91c;background:#fff0b9;box-shadow:0 0 0 2px #f5d66f inset}.tool span{display:block;font-size:20px;margin-bottom:2px}
-.action{width:100%;padding:11px;border:0;border-radius:11px;background:#438b4e;color:white;font-size:14px;font-weight:800;cursor:pointer;margin-top:7px}.action.secondary{background:#31455e}.quest{font-size:13px;line-height:1.6}.bar{height:8px;background:#e2e7db;border-radius:8px;overflow:hidden;margin:5px 0 10px}.bar i{display:block;height:100%;background:#58a967;width:0%}#toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#203047;color:white;padding:10px 16px;border-radius:12px;box-shadow:0 4px 15px #0003;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90%;text-align:center}#toast.show{opacity:1}
-footer{text-align:center;padding:4px 12px 18px;color:#526a59;font-size:12px}
-@media(max-width:700px){main{grid-template-columns:1fr;margin-top:8px}.stats{width:100%;justify-content:space-between}.pill{font-size:12px;padding:6px 8px}aside{display:grid;grid-template-columns:1fr 1fr}.card:first-child{grid-column:1/-1}h1{font-size:18px}.hint{font-size:12px}}
+:root{--bg:#f4f7f8;--card:#fff;--ink:#172b2b;--muted:#647575;--line:#dce6e6;--brand:#0f766e;--brand2:#115e59;--soft:#e6f5f2;--warn:#fff7e6;--shadow:0 8px 24px rgba(19,54,54,.07)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:env(safe-area-inset-bottom)}
+header{background:linear-gradient(135deg,#115e59,#0f766e);color:white;padding:26px 18px 22px}header .wrap,main,.footer{max-width:760px;margin:auto}header .eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.85;font-weight:700}h1{font-size:29px;line-height:1.1;margin:8px 0}header p{margin:8px 0 0;max-width:560px;color:#e0f2f1}
+main{padding:16px 12px 30px}.notice{background:var(--warn);border:1px solid #f2d9a3;border-radius:14px;padding:12px 14px;font-size:13px;color:#674b16;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}h2{font-size:18px;margin:0 0 12px}label{display:block;font-weight:650;font-size:14px;margin:13px 0 6px}input,textarea,select{display:block;width:100%;border:1px solid #cbd8d8;border-radius:12px;padding:12px;font:inherit;color:var(--ink);background:#fff;min-height:46px}textarea{min-height:86px;resize:vertical}input:focus,textarea:focus,select:focus{outline:3px solid #99f6e4;border-color:var(--brand)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.muted{color:var(--muted);font-size:13px}.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:8px 11px;font-size:13px;min-height:38px}.chip[aria-pressed="true"]{background:var(--soft);border-color:var(--brand);color:var(--brand2);font-weight:700}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.btn{appearance:none;border:0;border-radius:12px;padding:12px 15px;min-height:46px;font:inherit;font-weight:700;cursor:pointer}.primary{background:var(--brand);color:#fff;flex:1}.primary:active{background:var(--brand2)}.secondary{background:var(--soft);color:var(--brand2);border:1px solid #b5e4dc}.plain{background:#f0f4f4;color:#294444}.output{white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid var(--line);background:#fbfdfd;border-radius:12px;padding:14px;min-height:130px;font-size:15px}.output:empty:before{content:"Nội dung sẽ xuất hiện ở đây sau khi tạo.";color:#8a9999}.result-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.result-head h2{margin:0}.smallbtn{border:1px solid var(--line);border-radius:10px;background:#fff;padding:8px 10px;font-weight:650;min-height:38px}.status{font-size:13px;color:var(--brand2);min-height:20px;margin-top:7px}.footer{padding:0 16px 24px;color:var(--muted);font-size:12px}.tag{display:inline-block;border-radius:7px;background:#e8f4f2;color:#17645c;padding:3px 7px;font-size:11px;font-weight:750;margin-bottom:8px}
+@media(min-width:620px){main{padding:22px 18px 36px}.card{padding:20px}header{padding:34px 24px 28px}h1{font-size:34px}}
+@media(max-width:390px){.grid{grid-template-columns:1fr}h1{font-size:26px}.actions .btn{width:100%}}
 </style>
 </head>
 <body>
-<header>
-  <h1>🌱 Nông Trại Mini</h1>
-  <div class="stats"><div class="pill">🪙 <b id="gold">30</b></div><div class="pill">🥕 <b id="produce">0</b></div><div class="pill">☀️ <b id="day">Ngày 1 · 08:00</b></div></div>
-</header>
+<header><div class="wrap"><div class="eyebrow">Công cụ nhỏ cho người bán hàng online</div><h1>Chốt Đơn ✦</h1><p>Tạo ý tưởng, bài đăng, mô tả sản phẩm và kịch bản video bán hàng — nhanh hơn, có cấu trúc hơn.</p></div></header>
 <main>
-<section class="game">
-<canvas id="farm" width="720" height="560" aria-label="Bản đồ nông trại"></canvas>
-<div class="hint"><b>Chơi nhanh:</b> Chọn công cụ rồi chạm vào ô đất. Cuốc đất → gieo hạt → tưới nước → chờ cây lớn → thu hoạch. Mỗi ngày cây được thêm một bước phát triển.</div>
+<div class="notice"><strong>Bản thử nghiệm miễn phí:</strong> công cụ này tạo nội dung theo mẫu ngay trên thiết bị, không gọi API AI và không tự gửi dữ liệu đi đâu. Hãy kiểm tra thông tin, giá và lời quảng cáo trước khi đăng.</div>
+<section class="card">
+<h2>1. Thông tin sản phẩm</h2>
+<label for="product">Tên sản phẩm *</label><input id="product" maxlength="120" placeholder="Ví dụ: Bình giữ nhiệt inox 500 ml">
+<div class="grid">
+<div><label for="audience">Khách hàng mục tiêu</label><input id="audience" maxlength="120" placeholder="Dân văn phòng, sinh viên"></div>
+<div><label for="platform">Kênh đăng</label><select id="platform"><option>Facebook</option><option>TikTok</option><option>Shopee</option><option>Zalo</option><option>Instagram</option></select></div>
+</div>
+<label for="benefits">Điểm nổi bật / lợi ích</label><textarea id="benefits" maxlength="600" placeholder="Ví dụ: giữ nóng 6 giờ, nắp chống tràn, dễ vệ sinh"></textarea>
+<div class="grid">
+<div><label for="price">Giá bán (không bắt buộc)</label><input id="price" inputmode="numeric" maxlength="20" placeholder="Ví dụ: 159.000đ"></div>
+<div><label for="offer">Ưu đãi / giao hàng</label><input id="offer" maxlength="160" placeholder="Ví dụ: freeship đơn từ 2 sản phẩm"></div>
+</div>
+<label for="tone">Giọng văn</label>
+<div class="chips" id="tones">
+<button type="button" class="chip" data-tone="Thân thiện, gần gũi" aria-pressed="true">Thân thiện</button>
+<button type="button" class="chip" data-tone="Chuyên nghiệp, rõ ràng" aria-pressed="false">Chuyên nghiệp</button>
+<button type="button" class="chip" data-tone="Vui vẻ, bắt trend vừa phải" aria-pressed="false">Vui vẻ</button>
+<button type="button" class="chip" data-tone="Ngắn gọn, tập trung lợi ích" aria-pressed="false">Ngắn gọn</button>
+</div>
+<label for="cta">Lời kêu gọi hành động</label><select id="cta"><option>Nhắn tin để được tư vấn</option><option>Đặt hàng ngay hôm nay</option><option>Bình luận để nhận thông tin</option><option>Xem thêm chi tiết sản phẩm</option></select>
+<div class="actions"><button id="generate" class="btn primary">Tạo nội dung</button><button id="clear" class="btn plain">Xóa biểu mẫu</button></div>
+<div class="muted" style="margin-top:9px">Mẹo: mô tả lợi ích cụ thể và chỉ nhập những thông tin mày đã xác minh.</div>
 </section>
-<aside>
- <section class="card"><h2>🧑‍🌾 Nông dân</h2><div class="big">Cấp <span id="level">1</span></div><div class="muted">Kinh nghiệm: <span id="xp">0</span> / 10 XP</div><div class="bar"><i id="xpbar"></i></div><div class="muted">Mục tiêu: thu hoạch 5 củ cà rốt.</div></section>
- <section class="card"><h2>🧰 Công cụ</h2><div class="tools" id="tools">
- <button class="tool active" data-tool="hoe"><span>⛏️</span>Cuốc đất</button>
- <button class="tool" data-tool="seed"><span>🌱</span>Gieo hạt <small>(3🪙)</small></button>
- <button class="tool" data-tool="water"><span>💧</span>Tưới nước</button>
- <button class="tool" data-tool="harvest"><span>🧺</span>Thu hoạch</button>
- </div><button class="action" id="nextDay">🌙 Ngủ — sang ngày mới</button><button class="action secondary" id="sell">Bán nông sản (+5🪙/củ)</button></section>
- <section class="card quest"><h2>📋 Nhật ký</h2><div id="quest">• Cuốc một ô đất để bắt đầu.<br>• Gieo hạt và nhớ tưới nước!</div><p class="muted">Tiến độ thu hoạch: <b id="harvestCount">0</b>/5</p></section>
-</aside>
+<section class="card">
+<div class="result-head"><h2>2. Nội dung của mày</h2><button id="copy" class="smallbtn">Sao chép</button></div>
+<div class="chips" id="formats" style="margin:13px 0 12px">
+<button type="button" class="chip" data-format="post" aria-pressed="true">Bài đăng</button>
+<button type="button" class="chip" data-format="description" aria-pressed="false">Mô tả sản phẩm</button>
+<button type="button" class="chip" data-format="video" aria-pressed="false">Kịch bản video</button>
+<button type="button" class="chip" data-format="titles" aria-pressed="false">Tiêu đề</button>
+<button type="button" class="chip" data-format="prompt" aria-pressed="false">Prompt cho AI</button>
+</div>
+<div id="output" class="output" aria-live="polite"></div>
+<div class="actions"><button id="regen" class="btn secondary">Tạo lại biến thể</button><button id="share" class="btn plain">Chia sẻ / xuất nội dung</button></div>
+<div id="status" class="status" role="status"></div>
+</section>
+<section class="card">
+<h2>3. Cách dùng nhanh</h2>
+<ol style="padding-left:22px;margin-bottom:8px">
+<li>Nhập tên sản phẩm và 2–4 lợi ích đã xác minh.</li>
+<li>Chọn định dạng rồi bấm <strong>Tạo nội dung</strong>.</li>
+<li>Sửa lại cho đúng thực tế, sau đó sao chép sang nền tảng bán hàng.</li>
+<li>Ghi lại kiểu nội dung nào được khách hàng hỏi mua nhiều nhất.</li>
+</ol>
+<p class="muted">Đây là bộ tạo nội dung theo mẫu, chưa phải AI tạo sinh trực tiếp. Có thể dùng phần “Prompt cho AI” để yêu cầu một công cụ AI bên ngoài viết thêm phiên bản mới.</p>
+</section>
 </main>
-<footer>Demo HTML5 + JavaScript · Tự lưu tiến trình trên thiết bị này.</footer>
-<div id="toast"></div>
+<div class="footer">Chốt Đơn — bản demo 0.1 · Không lưu dữ liệu sau khi đóng hoặc tải lại trang. Không đưa thông tin khách hàng, mật khẩu hoặc dữ liệu nhạy cảm vào biểu mẫu.</div>
 <script>
-(()=>{
-const canvas=document.getElementById('farm'),ctx=canvas.getContext('2d');
-const cols=8,rows=6,tile=66,ox=36,oy=72;
-let tool='hoe',gold=30,produce=0,day=1,hour=8,xp=0,level=1,harvestCount=0;
-let plots=Array.from({length:rows},()=>Array.from({length:cols},()=>({state:0,growth:0,water:false})));
-let deco=[];
-function rnd(n){return Math.floor(Math.random()*n)}
-for(let i=0;i<45;i++)deco.push({x:rnd(700)+10,y:rnd(540)+10,t:rnd(3)});
-function save(){try{localStorage.setItem('nongTraiMini',JSON.stringify({gold,produce,day,hour,xp,level,harvestCount,plots}))}catch(e){}}
-function load(){try{let d=JSON.parse(localStorage.getItem('nongTraiMini'));if(d){({gold,produce,day,hour,xp,level,harvestCount,plots}=d)}}catch(e){}}
-function toast(s){let el=document.getElementById('toast');el.textContent=s;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1700)}
-function draw(){
- ctx.clearRect(0,0,720,560);
- // grassy background
- ctx.fillStyle='#9bd47a';ctx.fillRect(0,0,720,560);
- for(let y=0;y<560;y+=32)for(let x=0;x<720;x+=32){ctx.fillStyle=((x/32+y/32)%2)?'#96ce75':'#a2d982';ctx.fillRect(x,y,32,32)}
- // pond and stepping stones
- ctx.fillStyle='#57c6db';ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(200,0);ctx.lineTo(150,65);ctx.lineTo(70,100);ctx.lineTo(0,75);ctx.closePath();ctx.fill();
- for(let i=0;i<12;i++){ctx.fillStyle='#d9f7ed55';ctx.fillRect(8+i*13,18+(i%3)*10,8,3)}
- // little house
- ctx.fillStyle='#d9a66c';ctx.fillRect(495,28,155,100);ctx.fillStyle='#b95743';ctx.beginPath();ctx.moveTo(480,42);ctx.lineTo(570,0);ctx.lineTo(665,42);ctx.closePath();ctx.fill();ctx.fillStyle='#74452e';ctx.fillRect(555,75,34,53);ctx.fillStyle='#b7e6ef';ctx.fillRect(610,57,22,22);
- // fence
- ctx.strokeStyle='#9a653a';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(475,150);ctx.lineTo(681,150);ctx.moveTo(475,150);ctx.lineTo(475,520);ctx.moveTo(681,150);ctx.lineTo(681,520);ctx.moveTo(475,520);ctx.lineTo(681,520);ctx.stroke();
- for(let x=480;x<680;x+=28){ctx.fillStyle='#bc8850';ctx.fillRect(x,144,7,14);ctx.fillRect(x,514,7,14)}
- // trees
- [[55,160],[665,80],[690,240],[40,480],[670,465]].forEach(([x,y],i)=>{ctx.fillStyle='#765333';ctx.fillRect(x-5,y,12,28);ctx.fillStyle=i%2?'#31824b':'#3d9951';ctx.beginPath();ctx.arc(x,y,23,0,Math.PI*2);ctx.fill();ctx.fillStyle='#65b85e';ctx.beginPath();ctx.arc(x-7,y-8,11,0,Math.PI*2);ctx.fill()});
- // crop grid
- for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
-  const p=plots[r][c],x=ox+c*tile,y=oy+r*tile;
-  ctx.fillStyle=p.state?'#754c32':'#76b75e';ctx.fillRect(x+2,y+2,tile-5,tile-5);
-  if(p.state){ctx.fillStyle=p.water?'#6b9d68':'#93613b';ctx.fillRect(x+5,y+5,tile-11,tile-11);
-   if(p.state===1){ctx.strokeStyle='#b18a57';ctx.lineWidth=2;for(let k=0;k<4;k++){ctx.beginPath();ctx.moveTo(x+10,y+12+k*12);ctx.lineTo(x+tile-10,y+12+k*12);ctx.stroke()}}
-   if(p.state===2||p.state===3){let n=p.growth+1;for(let k=0;k<n;k++){let px=x+18+(k%3)*15,py=y+24+Math.floor(k/3)*13;ctx.strokeStyle='#287c3f';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(px,py+8);ctx.lineTo(px,py-4);ctx.stroke();ctx.fillStyle=p.state===3?'#f3a83f':'#4ebd59';ctx.beginPath();ctx.ellipse(px-4,py-1,6,3,-.5,0,7);ctx.fill();ctx.beginPath();ctx.ellipse(px+4,py-4,6,3,.5,0,7);ctx.fill()}}
-   if(p.state===3){ctx.fillStyle='#f39a31';ctx.beginPath();ctx.ellipse(x+tile/2,y+tile/2+7,8,13,0,0,7);ctx.fill();ctx.fillStyle='#3a8c42';ctx.fillRect(x+tile/2-2,y+tile/2-10,4,8)}
-   if(p.water){ctx.fillStyle='#8dd9f4';ctx.beginPath();ctx.arc(x+tile-13,y+12,4,0,7);ctx.fill()}
-  }else{ctx.fillStyle='#b4df8b';ctx.fillRect(x+tile/2-2,y+tile/2-2,4,4)}
- }
- // player
- ctx.fillStyle='#344e70';ctx.fillRect(315,22,24,28);ctx.fillStyle='#f0c39a';ctx.fillRect(318,7,19,19);ctx.fillStyle='#49372d';ctx.fillRect(316,5,21,7);ctx.fillStyle='#fff';ctx.fillRect(322,14,3,3);ctx.fillRect(331,14,3,3);
- ctx.fillStyle='#fff8df';ctx.font='bold 13px system-ui';ctx.fillText('NÔNG TRẠI CỦA BẠN',235,545);
+(function(){
+'use strict';
+const $ = id => document.getElementById(id);
+const fields = ['product','audience','platform','benefits','price','offer','cta'];
+let tone = 'Thân thiện, gần gũi';
+let format = 'post';
+let variant = 0;
+let lastText = '';
+const openers = [
+  p => `Đang tìm một lựa chọn ${p} tiện dụng?`,
+  p => `Gợi ý dành cho ai đang quan tâm đến ${p}.`,
+  p => `Một lựa chọn đáng cân nhắc: ${p}.`,
+  p => `Mày đang tìm hiểu ${p}? Tham khảo thông tin dưới đây nhé.`
+];
+function val(id){ return $(id).value.trim(); }
+function clean(s){ return s.replace(/[<>]/g,'').trim(); }
+function listBenefits(){
+  return val('benefits').split(/\n|,|;/).map(x=>clean(x)).filter(Boolean).slice(0,8);
 }
-function updateUI(){document.getElementById('gold').textContent=gold;document.getElementById('produce').textContent=produce;document.getElementById('day').textContent=`Ngày ${day} · ${String(hour).padStart(2,'0')}:00`;document.getElementById('level').textContent=level;document.getElementById('xp').textContent=xp;document.getElementById('xpbar').style.width=(xp/10*100)+'%';document.getElementById('harvestCount').textContent=harvestCount;save()}
-canvas.addEventListener('click',e=>{
- const rect=canvas.getBoundingClientRect(),x=(e.clientX-rect.left)*canvas.width/rect.width,y=(e.clientY-rect.top)*canvas.height/rect.height;
- const c=Math.floor((x-ox)/tile),r=Math.floor((y-oy)/tile);if(c<0||c>=cols||r<0||r>=rows)return;
- const p=plots[r][c];
- if(tool==='hoe'){if(!p.state){p.state=1;toast('Đã cuốc đất! Chọn Gieo hạt.')}else toast('Ô đất này đã được chuẩn bị rồi.')}
- if(tool==='seed'){if(p.state===1&&gold>=3){p.state=2;p.growth=0;gold-=3;toast('Đã gieo hạt. Nhớ tưới nước!')}else if(gold<3)toast('Không đủ vàng!');else toast('Hãy cuốc đất trước.')}
- if(tool==='water'){if(p.state===2){p.water=true;toast('Đã tưới nước!')}else toast('Chỉ tưới được ô có hạt đang lớn.')}
- if(tool==='harvest'){if(p.state===3){p.state=1;p.growth=0;p.water=false;produce++;harvestCount++;xp+=3;if(xp>=10){level++;xp-=10;toast('Lên cấp '+level+'! 🎉')}else toast('Thu hoạch được 1 củ cà rốt!')}else toast('Cây chưa chín. Hãy ngủ sang ngày mới và tưới cây.')}
- draw();updateUI();
+function data(){
+  return {product:clean(val('product')), audience:clean(val('audience')) || 'người đang quan tâm đến sản phẩm', platform:val('platform'), benefits:listBenefits(), price:clean(val('price')), offer:clean(val('offer')), cta:val('cta')};
+}
+function bullet(b){return b.length ? b.map(x=>'✓ '+x).join('\n') : '• Bổ sung các lợi ích đã được xác minh của sản phẩm.';}
+function make(d, kind){
+  const opener = openers[variant % openers.length](d.product);
+  const benefits = bullet(d.benefits);
+  const price = d.price ? `\n💰 Giá tham khảo: ${d.price}` : '';
+  const offer = d.offer ? `\n🎁 ${d.offer}` : '';
+  if(kind==='post') return `${opener}\n\nDành cho ${d.audience}.\n\nĐiểm nổi bật:\n${benefits}${price}${offer}\n\nMuốn biết thêm chi tiết? ${d.cta}.\n\n#${d.product.replace(/[^\p{L}\p{N}]+/gu,'').slice(0,30)} #muasam`;
+  if(kind==='description') return `${d.product}\n\nPhù hợp với: ${d.audience}.\n\nThông tin nổi bật:\n${benefits}${price}${offer}\n\nLưu ý: vui lòng kiểm tra phân loại, thông số và chính sách giao hàng trước khi đặt mua.`;
+  if(kind==='video') return `KỊCH BẢN VIDEO NGẮN (20–30 GIÂY)\n\n0–3 giây — MỞ ĐẦU\n"${opener}"\n\n3–12 giây — GIỚI THIỆU\n"Đây là ${d.product}, dành cho ${d.audience}."\n\n12–22 giây — NÊU LỢI ÍCH\n${d.benefits.length ? d.benefits.map(x=>'- '+x).join('\n') : '- Nêu 2–3 lợi ích đã xác minh'}\n\n22–30 giây — KÊU GỌI\n"${d.cta}."\n${price}${offer}\n\nGợi ý quay: cận cảnh sản phẩm, thao tác sử dụng thật, chèn phụ đề dễ đọc.`;
+  if(kind==='titles') return `5 GỢI Ý TIÊU ĐỀ\n\n1. ${d.product}: lựa chọn dành cho ${d.audience}\n2. Tìm hiểu ${d.product} — điểm nổi bật cần biết\n3. ${opener}\n4. ${d.product}${d.benefits[0] ? ' — '+d.benefits[0] : ' — xem thông tin chi tiết'}\n5. Đang cân nhắc ${d.product}? Xem thông tin trước khi chọn mua`;
+  return `Hãy viết 3 phiên bản nội dung bán hàng bằng tiếng Việt cho sản phẩm sau.\n\nTên sản phẩm: ${d.product}\nKhách hàng mục tiêu: ${d.audience}\nKênh đăng: ${d.platform}\nLợi ích/thông tin đã xác minh:\n${d.benefits.length ? d.benefits.map(x=>'- '+x).join('\n') : '- Chưa cung cấp; hãy hỏi lại, không tự bịa'}\nGiá: ${d.price || 'Chưa cung cấp'}\nƯu đãi: ${d.offer || 'Chưa cung cấp'}\nGiọng văn: ${tone}\nLời kêu gọi: ${d.cta}\n\nYêu cầu: viết dễ đọc trên điện thoại, có mở đầu thu hút nhưng không phóng đại; không tự tạo chứng nhận, công dụng, đánh giá khách hàng, số lượng tồn kho hay cam kết không có trong dữ liệu. Kết thúc bằng lời kêu gọi phù hợp.`;
+}
+function render(){
+ const d=data();
+ if(!d.product){ $('output').textContent='Nhập tên sản phẩm ở mục 1 rồi bấm “Tạo nội dung”.'; lastText=''; return; }
+ lastText=make(d,format);
+ $('output').textContent=lastText;
+ $('status').textContent='Đã tạo nội dung mẫu. Kiểm tra thông tin trước khi đăng.';
+}
+$('tones').addEventListener('click',e=>{
+ const b=e.target.closest('[data-tone]'); if(!b)return;
+ tone=b.dataset.tone;
+ $('tones').querySelectorAll('[data-tone]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
 });
-document.querySelectorAll('.tool').forEach(b=>b.addEventListener('click',()=>{tool=b.dataset.tool;document.querySelectorAll('.tool').forEach(x=>x.classList.toggle('active',x===b))}));
-document.getElementById('nextDay').onclick=()=>{day++;hour=8;let grew=0;plots.flat().forEach(p=>{if(p.state===2&&p.water){p.growth++;p.water=false;grew++;if(p.growth>=2)p.state=3}});draw();updateUI();toast(grew?`Ngày mới! ${grew} cây đã phát triển.`:'Ngày mới! Nhớ tưới cây trước khi ngủ nhé.')};
-document.getElementById('sell').onclick=()=>{if(!produce){toast('Chưa có nông sản để bán!');return}gold+=produce*5;toast(`Đã bán ${produce} củ, nhận ${produce*5} vàng!`);produce=0;draw();updateUI()};
-load();draw();updateUI();
+$('formats').addEventListener('click',e=>{
+ const b=e.target.closest('[data-format]'); if(!b)return;
+ format=b.dataset.format; variant=0;
+ $('formats').querySelectorAll('[data-format]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+ render();
+});
+$('generate').addEventListener('click',()=>{
+ if(!val('product')){ $('product').focus(); $('status').textContent='Mày nhập tên sản phẩm trước nhé.'; return; }
+ variant=0; render();
+});
+$('regen').addEventListener('click',()=>{
+ if(!val('product')){ $('status').textContent='Nhập tên sản phẩm trước nhé.'; return; }
+ variant++; render();
+});
+$('copy').addEventListener('click',async()=>{
+ if(!lastText){ $('status').textContent='Chưa có nội dung để sao chép.'; return; }
+ try{
+  if(navigator.clipboard && window.isSecureContext){ await navigator.clipboard.writeText(lastText); }
+  else { const ta=document.createElement('textarea'); ta.value=lastText; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); const ok=document.execCommand('copy'); ta.remove(); if(!ok)throw new Error('copy failed'); }
+  $('status').textContent='Đã sao chép. Mày có thể dán vào ứng dụng bán hàng.';
+ }catch(e){ $('status').textContent='Không tự sao chép được trên trình duyệt này. Chạm giữ phần nội dung rồi chọn Sao chép.'; }
+});
+$('share').addEventListener('click',async()=>{
+ if(!lastText){ $('status').textContent='Chưa có nội dung để chia sẻ.'; return; }
+ try{
+  if(navigator.share){ await navigator.share({title:'Nội dung bán hàng — Chốt Đơn',text:lastText}); $('status').textContent='Đã mở bảng chia sẻ.'; }
+  else { await navigator.clipboard.writeText(lastText); $('status').textContent='Đã sao chép nội dung để mày dán vào nơi cần dùng.'; }
+ }catch(e){ if(e.name!=='AbortError')$('status').textContent='Có thể sao chép nội dung rồi dán thủ công.'; }
+});
+$('clear').addEventListener('click',()=>{
+ fields.forEach(id=>{if($(id).tagName==='SELECT')$(id).selectedIndex=0;else $(id).value='';});
+ variant=0; lastText=''; $('output').textContent=''; $('status').textContent='Đã xóa biểu mẫu.';
+});
 })();
 </script>
-</body></html>
+</body>
+</html>
